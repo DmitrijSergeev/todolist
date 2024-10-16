@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {TodoLists} from "../../api/api-todolists";
+import {TodoLists} from "../../types/types";
 
 export type FilterValues = 'all' | 'active' | 'completed'
 export type TodolistDomain = TodoLists & {

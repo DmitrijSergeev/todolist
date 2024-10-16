@@ -1,4 +1,5 @@
 import axios from "axios";
+import {TodoLists} from "../types/types.ts";
 
 export const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -14,9 +15,3 @@ export const ApiTodoLists = {
     }
 }
 
-export type TodoLists = {
-	id: string;
-	title: string;
-	addedDate: string;
-	order: number;
-}
