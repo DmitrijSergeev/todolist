@@ -1,6 +1,7 @@
 import './App.css'
 import {useEffect} from "react";
 import {ApiTodoLists} from "./api/api-todolists";
+import {TodoList} from "./components/todolist/todoList";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
 
     return (
         <>
-            Hello World!
+            <TodoList/>
         </>
     )
 }
