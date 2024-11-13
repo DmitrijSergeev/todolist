@@ -7,7 +7,7 @@ export type TodolistDomain = TodoLists & {
 }
 const initialState: TodolistDomain[] = []
 
-export const todoListSlice = createSlice({
+export const slice = createSlice({
     name: 'todoLists',
     initialState,
     reducers: {
@@ -15,14 +15,8 @@ export const todoListSlice = createSlice({
             return action.payload.map( tl => ({...tl, filter: 'all'}) )
         }
     },
-    // extraReducers(builder) {
-    //     builder.addCase( ()=>{} )
-    // }
 })
 
-// export const createAsyncThunk = (
-//     'todoLists/fetch-todoLists',
-//         async ()=>{
-//
-//     }
-// )
+export const todoListsReducer = slice.reducer
+
+

@@ -1,13 +1,13 @@
-import {combineSlices, configureStore, ThunkAction, ThunkDispatch, UnknownAction} from "@reduxjs/toolkit";
-import {todoListSlice} from "./todolist-reducer/todolist-reducer";
-import {taskSlice} from "./task-reducer/task-reducer";
+import {configureStore, ThunkAction, ThunkDispatch, UnknownAction} from "@reduxjs/toolkit";
+import {todoListsReducer} from "./todolist-reducer/todolist-reducer";
+import {tasksReducer} from "./task-reducer/task-reducer";
 
-export const rootReducer = combineSlices(
-    todoListSlice,
-    taskSlice
-)
-
-export const store = configureStore({ reducer: rootReducer })
+export const store = configureStore({
+    reducer: {
+        todoLists: todoListsReducer,
+        tasks: tasksReducer
+    }
+})
 
 export type AppRootState = ReturnType<typeof store.getState>
 
