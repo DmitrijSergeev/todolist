@@ -1,3 +1,5 @@
+import {Dispatch} from "redux";
+
 export type ThemeMode = 'dark' | 'light'
 
 type InitialState = typeof initialState
@@ -13,23 +15,26 @@ export const appReducer = (
         case 'CHANGE_THEME': {
             return {...state, themeMode: action.payload.themeMode}
         }
-        // 3
         default:
             return state
     }
 }
 
-// Action creators
-// 1
 export const changeThemeAC = (themeMode: ThemeMode) => ({
     type: 'CHANGE_THEME',
     payload: {
         themeMode
     }
-})
+}) as const
 
-// 2
-// Actions types
+export const changeThemeTC = () => (dispatch: Dispatch)=> {
+    const themeAsString = localStorage.getItem('theme_key')
+    if (themeAsString){
+        const newTheme = JSON.parse(themeAsString)
+        dispatch(changeThemeAC(newTheme))
+    }
+}
+
 type ChangeThemeActionType = ReturnType<typeof changeThemeAC>
 
 type ActionsType = ChangeThemeActionType
