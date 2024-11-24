@@ -32,7 +32,7 @@ export const setThemeTC = (newTheme: ThemeMode) => (dispatch: Dispatch) => {
     localStorage.setItem('themeMode', newTheme)
 }
 //updateFromLsTheme
-export const changeThemeTC = () => (dispatch: Dispatch) => {
+export const updateFromLocalStorageThemeTC = () => (dispatch: Dispatch) => {
     const currentTheme = localStorage.getItem('themeMode')
     if (currentTheme) {
         dispatch(setThemeAC(currentTheme as ThemeMode))

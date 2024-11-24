@@ -1,6 +1,6 @@
 import './App.css'
 import {TodoList} from "./components/todolist/todoList";
-import { changeThemeTC, setThemeTC,} from "./store/app-reducer/app-reducer";
+import {setThemeTC, updateFromLocalStorageThemeTC,} from "./store/app-reducer/app-reducer";
 import {getTheme} from "./common/theme/theme";
 import {useAppSelector} from "./common/hooks/useAppSelector";
 import {useAppDispatch} from "./common/hooks/useAppDispatch";
@@ -13,7 +13,7 @@ function App() {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(changeThemeTC())
+        dispatch(updateFromLocalStorageThemeTC())
     }, [dispatch]);
 
     const changeModeHandler = () => {
@@ -25,7 +25,10 @@ function App() {
         <>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <Switch color={'default'} onChange={changeModeHandler} checked={themeMode === 'light' || false}/>
+                <Switch color={'default'}
+                        onChange={changeModeHandler}
+                        checked={themeMode === 'light' || false}
+                />
                 <TodoList/>
             </ThemeProvider>
         </>
