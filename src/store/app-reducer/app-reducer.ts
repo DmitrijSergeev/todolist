@@ -5,36 +5,40 @@ export type ThemeMode = 'dark' | 'light'
 type InitialState = typeof initialState
 
 const initialState = {
-    themeMode: 'light' as ThemeMode,
+    themeMode: 'dark' as ThemeMode,
 }
+
 export const appReducer = (
     state: InitialState = initialState,
     action: ActionsType
 ): InitialState => {
     switch (action.type) {
-        case 'CHANGE_THEME': {
-            return {...state, themeMode: action.payload.themeMode}
-        }
+        case 'SET_THEME':
+            return {...state, themeMode: action.themeMode}
         default:
             return state
     }
 }
 
-export const changeThemeAC = (themeMode: ThemeMode) => ({
-    type: 'CHANGE_THEME',
-    payload: {
+export const setThemeAC = (themeMode: ThemeMode) => {
+    return {
+        type: 'SET_THEME',
         themeMode
-    }
-}) as const
+    } as const
+}
 
-export const changeThemeTC = () => (dispatch: Dispatch)=> {
-    const themeAsString = localStorage.getItem('theme_key')
-    if (themeAsString){
-        const newTheme = JSON.parse(themeAsString)
-        dispatch(changeThemeAC(newTheme))
+export const setThemeTC = (newTheme: ThemeMode) => (dispatch: Dispatch) => {
+    dispatch(setThemeAC(newTheme ))
+    localStorage.setItem('themeMode', newTheme)
+}
+//updateFromLsTheme
+export const changeThemeTC = () => (dispatch: Dispatch) => {
+    const currentTheme = localStorage.getItem('themeMode')
+    if (currentTheme) {
+        dispatch(setThemeAC(currentTheme as ThemeMode))
     }
 }
 
-type ChangeThemeActionType = ReturnType<typeof changeThemeAC>
+type SetThemeActionType = ReturnType<typeof setThemeAC>
 
-type ActionsType = ChangeThemeActionType
+type ActionsType = SetThemeActionType

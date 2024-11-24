@@ -1,6 +1,6 @@
 import './App.css'
 import {TodoList} from "./components/todolist/todoList";
-import {changeThemeAC, changeThemeTC,} from "./store/app-reducer/app-reducer";
+import { changeThemeTC, setThemeTC,} from "./store/app-reducer/app-reducer";
 import {getTheme} from "./common/theme/theme";
 import {useAppSelector} from "./common/hooks/useAppSelector";
 import {useAppDispatch} from "./common/hooks/useAppDispatch";
@@ -8,7 +8,6 @@ import {CssBaseline, Switch, ThemeProvider} from "@mui/material";
 import {useEffect} from "react";
 
 function App() {
-
     const themeMode = useAppSelector(state => state.app.themeMode)
     const theme = getTheme(themeMode)
     const dispatch = useAppDispatch()
@@ -18,15 +17,15 @@ function App() {
     }, [dispatch]);
 
     const changeModeHandler = () => {
-        dispatch(changeThemeAC(themeMode === 'light' ? 'dark' : 'light'))
-        localStorage.setItem('theme_key', themeMode)
+        const newTheme =  themeMode === 'light' ? 'dark' : 'light'
+        dispatch(setThemeTC(newTheme))
     }
 
     return (
         <>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <Switch color={'default'} onChange={changeModeHandler}/>
+                <Switch color={'default'} onChange={changeModeHandler} checked={themeMode === 'light' || false}/>
                 <TodoList/>
             </ThemeProvider>
         </>
