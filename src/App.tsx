@@ -6,22 +6,21 @@ import {useAppSelector} from "./common/hooks/useAppSelector";
 import {useAppDispatch} from "./common/hooks/useAppDispatch";
 import {CssBaseline, Switch, ThemeProvider} from "@mui/material";
 import {useEffect} from "react";
-import {todoListsApi} from "./api/api-todolists";
+import {setTodolistTC} from "./store/todolist-reducer/todolist-reducer";
 
 function App() {
     const themeMode = useAppSelector(state => state.app.themeMode)
     const theme = getTheme(themeMode)
     const dispatch = useAppDispatch()
+    const todoLists = useAppSelector(state => state.todoLists)
 
     useEffect(() => {
         dispatch(updateFromLocalStorageThemeTC())
     }, [dispatch]);
 
     useEffect(() => {
-        todoListsApi.getTodoLists().then( (res)=>{
-            console.log(res.data)
-        } )
-    }, []);
+        dispatch(setTodolistTC())
+    }, [dispatch]);
 
     const changeModeHandler = () => {
         const newTheme =  themeMode === 'light' ? 'dark' : 'light'
@@ -36,7 +35,7 @@ function App() {
                         onChange={changeModeHandler}
                         checked={themeMode === 'light' || false}
                 />
-                <TodoList/>
+                <TodoList todoLists={todoLists}/>
             </ThemeProvider>
         </>
     )
