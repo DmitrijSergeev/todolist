@@ -1,28 +1,54 @@
 import {Task} from "../../App";
+import {useRef, useState} from "react";
 
 type TodoListItemProps = {
     tasks: Task[]
+    removeTask: (id: string)=>void
+    addTask: (title: string)=>void
 }
 
 const TodoListItem = (props: TodoListItemProps) => {
-    const {tasks} = props;
+    const {tasks, removeTask, addTask} = props;
+
+    const [error, setError] = useState<string|null>(null)
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const addHandler = () => {
+        if (inputRef.current && inputRef.current.value !== '') {
+            addTask(inputRef.current.value.trim())
+            inputRef.current.value = ''
+            setError(null)
+        }else {
+            setError('Введите задачу')
+        }
+    }
+
     return (
         <div>
             <h1 className={'text-xl'}>What to learn?</h1>
             <div>
-                <input className={'mt-4 border-2 border-gray-500'}
+                <input className={`mt-4 border-2 border-gray-500 w-55 ${error ? 'border-red-600' : ''}`}
                        type={'text'}
                        placeholder={'Enter...'}
+                       ref={inputRef}
                 />
-                <button className={'w-6 border-2 border-gray-500'}>+</button>
+                <button className={'w-6 border-2 border-gray-500'}
+                        onClick={addHandler}
+                >+
+                </button>
+                {error && <div className={'text-red-600'}>{error}</div>}
             </div>
-            <ul className={'flex flex-col justify-start list-none mt-6 p-2'}>
+            <ul className={'flex flex-col justify-start list-none mt-6 p-1'}>
                 {tasks.map((t) => {
+                    const removeHandler = () => {
+                        removeTask(t.id)
+                    }
                     return (
                         <li key={t.id} className={'pb-4'}>
                             <input type={'checkbox'} checked={t.isDone} />
                             <button className={'pl-2 cursor-pointer'}
                                     type={'button'}
+                                    onClick={removeHandler}
                             >
                                 x
                             </button>
@@ -31,7 +57,8 @@ const TodoListItem = (props: TodoListItemProps) => {
                     )
                 })}
             </ul>
-            <div className={'flex flex-row justify-evenly items-center pt-14'}
+
+            <div className={'flex flex-row justify-evenly items-center pt-2'}
             >
                 <button className={'border-2 border-gray-500 cursor-pointer ' +
                     'rounded-2xl w-35 bg-green-600'}
