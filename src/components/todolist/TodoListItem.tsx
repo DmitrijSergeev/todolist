@@ -1,14 +1,15 @@
-import {Task} from "../../App";
 import {useRef, useState} from "react";
+import {FilterType, Task} from "../../types/Types.ts";
 
 type TodoListItemProps = {
     tasks: Task[]
     removeTask: (id: string)=>void
     addTask: (title: string)=>void
+    filterTask: (filter: FilterType)=>void
 }
 
 const TodoListItem = (props: TodoListItemProps) => {
-    const {tasks, removeTask, addTask} = props;
+    const {tasks, removeTask, addTask, filterTask} = props;
 
     const [error, setError] = useState<string|null>(null)
     const inputRef = useRef<HTMLInputElement>(null);
@@ -21,6 +22,18 @@ const TodoListItem = (props: TodoListItemProps) => {
         }else {
             setError('Введите задачу')
         }
+    }
+
+    const allHandler = () => {
+        filterTask('all')
+    }
+
+    const activeHandler = () => {
+        filterTask('active')
+    }
+
+    const completedHandler = () => {
+        filterTask('completed')
     }
 
     return (
@@ -63,15 +76,20 @@ const TodoListItem = (props: TodoListItemProps) => {
                 <button className={'border-2 border-gray-500 cursor-pointer ' +
                     'rounded-2xl w-35 bg-green-600'}
                         type={'button'}
+                        onClick={allHandler}
                 >
                     All
                 </button>
                 <button className={'border-2 border-gray-500 cursor-pointer ' +
-                    'rounded-2xl w-35 bg-green-600'}>
+                    'rounded-2xl w-35 bg-green-600'}
+                        onClick={completedHandler}
+                >
                     Completed
                 </button>
                 <button className={'border-2 border-gray-500 cursor-pointer ' +
-                    'rounded-2xl w-35 bg-green-600'}>
+                    'rounded-2xl w-35 bg-green-600'}
+                        onClick={activeHandler}
+                >
                     Active
                 </button>
             </div>
