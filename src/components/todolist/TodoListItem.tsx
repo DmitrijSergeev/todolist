@@ -37,7 +37,7 @@ const TodoListItem = (props: TodoListItemProps) => {
     }
 
     return (
-        <div>
+        <div className={'border-2 border-gray-500 flex flex-col w-100 ml-5'}>
             <h1 className={'text-xl'}>What to learn?</h1>
             <div>
                 <input className={`mt-4 border-2 border-gray-500 w-55 ${error ? 'border-red-600' : ''}`}
@@ -51,7 +51,7 @@ const TodoListItem = (props: TodoListItemProps) => {
                 </button>
                 {error && <div className={'text-red-600'}>{error}</div>}
             </div>
-            <ul className={'flex flex-col justify-start list-none mt-6 p-1'}>
+            <ul>
                 {tasks.map((t) => {
                     const removeHandler = () => {
                         removeTask(t.id)
@@ -71,23 +71,22 @@ const TodoListItem = (props: TodoListItemProps) => {
                 })}
             </ul>
 
-            <div className={'flex flex-row justify-evenly items-center pt-2'}
-            >
+            <div className={'flex flex-row justify-evenly'}>
                 <button className={'border-2 border-gray-500 cursor-pointer ' +
-                    'rounded-2xl w-35 bg-green-600'}
+                    'rounded-2xl w-30 bg-green-600'}
                         type={'button'}
                         onClick={allHandler}
                 >
                     All
                 </button>
                 <button className={'border-2 border-gray-500 cursor-pointer ' +
-                    'rounded-2xl w-35 bg-green-600'}
+                    'rounded-2xl w-30 bg-green-600'}
                         onClick={completedHandler}
                 >
                     Completed
                 </button>
                 <button className={'border-2 border-gray-500 cursor-pointer ' +
-                    'rounded-2xl w-35 bg-green-600'}
+                    'rounded-2xl w-30 bg-green-600'}
                         onClick={activeHandler}
                 >
                     Active

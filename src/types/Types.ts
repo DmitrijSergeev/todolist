@@ -9,5 +9,5 @@ export type FilterType = 'all'|'completed'|'active'
 export type TodoList = {
     todoId: string;
     title: string;
-    completed: boolean;
+    filter: FilterType;
 }

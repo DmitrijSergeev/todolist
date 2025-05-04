@@ -3,7 +3,7 @@ import {ModeToggle} from "./components/mode-toggle/mode-toggle.tsx";
 import TodoListItem from "./components/todolist/TodoListItem.tsx";
 import {useState} from "react";
 import {v1} from "uuid";
-import {FilterType, Task} from "./types/Types.ts";
+import {FilterType, Task, TodoList} from "./types/Types.ts";
 
 function App() {
     const [tasks, setTasks] = useState<Task[]>([
@@ -16,7 +16,10 @@ function App() {
     ])
     const [filter, setFilter] = useState<FilterType>('all')
 
-    //const [todoLists, setTodoLists] = useState<TodoList>()
+    const [todoLists, setTodoLists] = useState<TodoList[]>([
+        {todoId: v1(), title: 'What to learn', filter: 'all'},
+        {todoId: v1(), title: 'What to buy', filter: 'all'},
+    ])
 
     const removeTask = (id: string) => {
         setTasks(tasks.filter((t) => t.id !== id));
@@ -33,10 +36,10 @@ function App() {
 
     let filteredTasks = tasks
     if (filter === 'completed') {
-        filteredTasks = tasks.filter( t => t.isDone)
+        filteredTasks = tasks.filter(t => t.isDone)
     }
-    if(filter === 'active'){
-        filteredTasks = filteredTasks.filter( t => !t.isDone)
+    if (filter === 'active') {
+        filteredTasks = filteredTasks.filter(t => !t.isDone)
     }
 
     const filterTask = (filter: FilterType) => {
@@ -44,19 +47,23 @@ function App() {
     }
 
     return (
-        <>
+        <div>
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                 <ModeToggle/>
             </ThemeProvider>
-            <div className={'flex flex-col justify-start mt-18 ml-12 border-2 border-gray-500 ' +
-                'w-80 p-5'}>
-                <TodoListItem tasks={filteredTasks}
-                              removeTask={removeTask}
-                              addTask={addTask}
-                              filterTask={filterTask}
-                />
+            <div className={'flex flex-row justify-start mt-10 ml-12 w-380'}>
+                {todoLists.map((t) => {
+                    return (
+                        <TodoListItem key={t.todoId}
+                                      tasks={filteredTasks}
+                                      removeTask={removeTask}
+                                      addTask={addTask}
+                                      filterTask={filterTask}
+                        />
+                    )
+                })}
             </div>
-        </>
+        </div>
     )
 }
 
