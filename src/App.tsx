@@ -1,11 +1,30 @@
 import {ThemeProvider} from "./components/theme-provider/theme-provider"
 import {ModeToggle} from "./components/mode-toggle/mode-toggle.tsx";
 import TodoListItem from "./components/todolist/TodoListItem.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {v1} from "uuid";
 import {FilterType, Task, TodoList} from "./types/Types.ts";
+import axios from "axios";
 
 function App() {
+
+    const token = '6f0c5e43-d050-4bcc-af24-f1fd04510d23'
+    const apiKey = '651eb87e-ff6f-4bbe-bf12-89a6c26ace63'
+
+    const instance = axios.create({
+        baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'API-KEY': apiKey,
+        },
+    })
+
+    useEffect(() => {
+        instance.get('todo-lists').then(response =>
+            console.log(response.data))
+    },[instance])
+
+
     const [tasks, setTasks] = useState<Task[]>([
         {id: v1(), title: 'HTML&CSS', isDone: true},
         {id: v1(), title: 'JS', isDone: true},
