@@ -9,7 +9,7 @@ import axios from "axios";
 function App() {
 
     const token = '6f0c5e43-d050-4bcc-af24-f1fd04510d23'
-    const apiKey = '651eb87e-ff6f-4bbe-bf12-89a6c26ace63'
+    const apiKey = 'dd4b6a3b-7a9d-431e-8935-dabb3a0ae481'
 
     const instance = axios.create({
         baseURL: 'https://social-network.samuraijs.com/api/1.1/',

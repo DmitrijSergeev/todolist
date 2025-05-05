@@ -11,3 +11,11 @@ export type TodoList = {
     title: string;
     filter: FilterType;
 }
+
+export type _TodoList = {
+    id: string
+    title: string
+    addedDate: string
+    order: number
+}
+
