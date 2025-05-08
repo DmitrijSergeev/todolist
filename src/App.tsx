@@ -1,9 +1,7 @@
 import {ThemeProvider} from "./components/theme-provider/theme-provider"
 import {ModeToggle} from "./components/mode-toggle/mode-toggle.tsx";
 import TodoListItem from "./components/todolist/TodoListItem.tsx";
-import {useEffect, useState} from "react";
-import {v1} from "uuid";
-import {FilterType, Task, TodoList} from "./types/Types.ts";
+import {useEffect} from "react";
 import axios from "axios";
 
 function App() {
@@ -22,47 +20,11 @@ function App() {
     useEffect(() => {
         instance.get('todo-lists').then(response =>
             console.log(response.data))
-    },[instance])
+    }, [instance])
 
-
-    const [tasks, setTasks] = useState<Task[]>([
-        {id: v1(), title: 'HTML&CSS', isDone: true},
-        {id: v1(), title: 'JS', isDone: true},
-        {id: v1(), title: 'ReactJS', isDone: false},
-        {id: v1(), title: 'Redux', isDone: false},
-        {id: v1(), title: 'Typescript', isDone: false},
-        {id: v1(), title: 'RTK query', isDone: false},
-    ])
-    const [filter, setFilter] = useState<FilterType>('all')
-
-    const [todoLists, setTodoLists] = useState<TodoList[]>([
-        {todoId: v1(), title: 'What to learn', filter: 'all'},
-        {todoId: v1(), title: 'What to buy', filter: 'all'},
-    ])
-
-    const removeTask = (id: string) => {
-        setTasks(tasks.filter((t) => t.id !== id));
-    }
-
-    const addTask = (title: string) => {
-        const newTask = {
-            id: v1(),
-            title,
-            isDone: false,
-        }
-        setTasks([...tasks, newTask])
-    }
-
-    let filteredTasks = tasks
-    if (filter === 'completed') {
-        filteredTasks = tasks.filter(t => t.isDone)
-    }
-    if (filter === 'active') {
-        filteredTasks = filteredTasks.filter(t => !t.isDone)
-    }
-
-    const filterTask = (filter: FilterType) => {
-        setFilter(filter);
+    const createTodoList = (title: string) => {
+        instance.post('todo-lists', {title})
+            .then(response => console.log(response.data))
     }
 
     return (
@@ -71,16 +33,7 @@ function App() {
                 <ModeToggle/>
             </ThemeProvider>
             <div className={'flex flex-row justify-start mt-10 ml-12 w-380'}>
-                {todoLists.map((t) => {
-                    return (
-                        <TodoListItem key={t.todoId}
-                                      tasks={filteredTasks}
-                                      removeTask={removeTask}
-                                      addTask={addTask}
-                                      filterTask={filterTask}
-                        />
-                    )
-                })}
+                <TodoListItem createTodoList={createTodoList}/>
             </div>
         </div>
     )
