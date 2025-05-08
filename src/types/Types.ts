@@ -6,10 +6,21 @@ export type Task = {
 
 export type FilterValueType = 'all'|'completed'|'active'
 
-export type _TodoList = {
+export type TodoList = {
     id: string
     title: string
     addedDate: string
     order: number
 }
 
+export type FieldError = {
+    error: string
+    field: string
+}
+
+export type CreateTodolistResponse = {
+    data: { item: TodoList }
+    resultCode: number
+    messages: string[]
+    fieldsErrors: FieldError[]
+}
