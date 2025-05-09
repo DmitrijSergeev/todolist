@@ -1,10 +1,12 @@
 export type Props = {
     createTodoList: (title: string)=>void
+    deleteTodoList:(id: string)=>void
+    changeTodolistTitle: (id: string, title: string)=>void
 }
 
 const TodoListItem = (props: Props) => {
 
-    const { createTodoList } = props;
+    const { createTodoList, deleteTodoList } = props;
 
     return (
         <div className={'border-2 border-gray-500 flex flex-col w-100 ml-5'}>
@@ -22,6 +24,7 @@ const TodoListItem = (props: Props) => {
                     <input type={'checkbox'} checked/>
                     <button className={'pl-2 cursor-pointer'}
                             type={'button'}
+                            onClick={()=> deleteTodoList('f554cf7d-e8ff-4311-9a85-d94b0057841e')}
                     >
                         x
                     </button>

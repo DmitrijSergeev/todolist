@@ -24,3 +24,9 @@ export type CreateTodolistResponse = {
     messages: string[]
     fieldsErrors: FieldError[]
 }
+export type DeleteTodolistResponse = {
+    data: { item: TodoList }
+    resultCode: number
+    messages: string[]
+    fieldsErrors: FieldError[]
+}
