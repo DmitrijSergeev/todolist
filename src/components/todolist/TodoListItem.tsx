@@ -1,3 +1,5 @@
+import {EditableTitle} from "../../components/editableTitle/EditableTitle.tsx";
+
 export type Props = {
     createTodoList: (title: string)=>void
     deleteTodoList:(id: string)=>void
@@ -10,7 +12,9 @@ const TodoListItem = (props: Props) => {
 
     return (
         <div className={'border-2 border-gray-500 flex flex-col w-100 ml-5'}>
-            <h1 className={'text-xl'}>What to learn?</h1>
+            <h1 className={'text-xl'}>
+                <EditableTitle value={'What to learn?'}/>
+            </h1>
             <div>
                 <input className={`mt-4 border-2 border-gray-500 w-55`}
                 />
