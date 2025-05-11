@@ -1,5 +1,5 @@
 export type Task = {
-    id: string;
+    taskId: string;
     title: string;
     isDone: boolean;
 }
@@ -18,14 +18,8 @@ export type FieldError = {
     field: string
 }
 
-export type CreateTodolistResponse = {
-    data: { item: TodoList }
-    resultCode: number
-    messages: string[]
-    fieldsErrors: FieldError[]
-}
-export type DeleteTodolistResponse = {
-    data: { item: TodoList }
+export type BaseResponse<T = object> = {
+    data: T
     resultCode: number
     messages: string[]
     fieldsErrors: FieldError[]
