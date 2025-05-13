@@ -1,30 +1,36 @@
 import {FilterValueType, Task} from "./types/Types.ts";
 import {Button} from "./Button.tsx";
-import {useRef, KeyboardEvent, ChangeEvent} from "react";
+import {useRef, KeyboardEvent, ChangeEvent, useState} from "react";
 
 type Props = {
     title: string
     tasks: Task[]
-    removeTask:(taskId: string) => void
+    removeTask: (taskId: string) => void
     changeFilter: (filter: FilterValueType) => void
-    addTask:(title: string) => void
+    addTask: (title: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean) => void
+    filter: FilterValueType
 }
 
 export const TodoListItem = (
-    {tasks, title, removeTask, changeFilter, addTask, changeTaskStatus}: Props ) => {
+    {tasks, title, removeTask, changeFilter, addTask, changeTaskStatus, filter}: Props) => {
 
     const inputRef = useRef<HTMLInputElement>(null)
+
+    const [error, setError] = useState<null | string>(null)
 
     const addTaskHandler = () => {
 
         if (inputRef.current && inputRef.current.value.trim() !== '') {
             addTask(inputRef.current.value)
             inputRef.current.value = ''
+            setError(null)
+        } else {
+            setError('Title is required')
         }
     }
 
-    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement> ) => {
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             addTaskHandler()
         }
@@ -36,13 +42,15 @@ export const TodoListItem = (
             <div>
                 <input ref={inputRef}
                        onKeyDown={onKeyDownHandler}
+                       className={error ? 'error' : ''}
                 />
                 <Button name={'+'}
                         onClick={addTaskHandler}
                 />
+                {error && <div className={'error-message'}>{error}</div>}
             </div>
             {tasks.length === 0 ? (
-                <p>Тасок нет</p>
+                <p style={{color: 'red'}}>Тасок нет</p>
             ) : (
                 <ul>
                     {tasks.map(task => {
@@ -53,8 +61,10 @@ export const TodoListItem = (
                             changeTaskStatus(task.taskId, e.currentTarget.checked)
                         }
                         return (
-                            <li>
-                                <button onClick={removeHandler}>X</button>
+                            <li key={task.taskId}
+                                className={task.isDone ? 'is-done' : ''}
+                            >
+                                <Button name={'X'} onClick={removeHandler}/>
                                 <input type="checkbox" checked={task.isDone}
                                        onChange={onChangeStatusHandler}
                                 />
@@ -63,11 +73,26 @@ export const TodoListItem = (
                         )
                     })}
                 </ul>
-            ) }
+            )}
             <div>
-                <Button name={'All'} onClick={ ()=>{changeFilter('all')} }/>
-                <Button name={'Active'} onClick={ ()=>{changeFilter('active')} }/>
-                <Button name={'Completed'} onClick={ ()=>{changeFilter('completed')} }/>
+                <Button name={'All'}
+                        className={filter === 'all' ? 'active-filter' : ''}
+                        onClick={() => {
+                            changeFilter('all')
+                        }}
+                />
+                <Button name={'Active'}
+                        className={filter === 'active' ? 'active-filter' : ''}
+                        onClick={() => {
+                            changeFilter('active')
+                        }}
+                />
+                <Button name={'Completed'}
+                        className={filter === 'completed' ? 'active-filter' : ''}
+                        onClick={() => {
+                            changeFilter('completed')
+                        }}
+                />
             </div>
         </div>
     );
