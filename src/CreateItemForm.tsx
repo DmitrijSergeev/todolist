@@ -1,5 +1,5 @@
 import {KeyboardEvent, useRef, useState} from "react";
-import {Button} from "./Button.tsx";
+import Button from "@mui/material/Button";
 
 type Props = {
     addItem: (title: string)=>void
@@ -32,9 +32,7 @@ export const CreateItemForm = ({addItem}:Props) => {
                    onKeyDown={onKeyDownHandler}
                    className={error ? 'error' : ''}
             />
-            <Button name={'+'}
-                    onClick={addItemHandler}
-            />
+            <Button variant={'contained'} size={'small'} onClick={addItemHandler}>+</Button>
             {error && <div className={'error-message'}>{error}</div>}
         </div>
     );

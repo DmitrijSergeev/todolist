@@ -11,21 +11,28 @@ type Props = {
     changeFilter: (todoId: string, filter: FilterValues) => void
     addTask: (id:string, title: string) => void
     changeTaskStatus: (id:string, taskId: string, isDone: boolean) => void
-    onChangeTitle: (id: string, taskId: string, title: string) => void
+    onChangeTaskTitle: (id: string, taskId: string, title: string) => void
+    deleteTodolist: (id:string) => void
 }
 
 export const TodoListItem = (
-    {tasks, removeTask, changeFilter, addTask, changeTaskStatus, onChangeTitle,
+    {tasks, removeTask, changeFilter, addTask, changeTaskStatus, onChangeTaskTitle, deleteTodolist,
         todolist:{id, title, filter}}: Props) => {
 
     const addTaskHandler = (title: string) => {
         addTask(id, title)
     }
 
+    const deleteHandler = () => {
+        deleteTodolist(id)
+    }
+
     return (
         <div>
-
-            <h3>{title}</h3>
+            <div className={'container'}>
+                <h3>{title}</h3>
+                <Button name={'X'} onClick={deleteHandler}/>
+            </div>
             <CreateItemForm addItem={addTaskHandler}/>
             {tasks.length === 0 ? (
                 <p style={{color: 'red'}}>Тасок нет</p>
@@ -38,8 +45,8 @@ export const TodoListItem = (
                         const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                             changeTaskStatus(id, task.taskId, e.currentTarget.checked)
                         }
-                        const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            onChangeTitle(id, task.taskId, e.currentTarget.value)
+                        const onChangeTitleHandler = (title: string) => {
+                            onChangeTaskTitle(id, task.taskId, title)
                         }
                         return (
                             <li key={task.taskId}
