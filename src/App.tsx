@@ -64,6 +64,12 @@ function App() {
                 : t)})
     }
 
+    const onChangeTodolistTitle = (todoId: string, title: string) => {
+        setTodolists(todolists.map( todo => todo.id === todoId
+            ? {...todo, title}
+            : todo))
+    }
+
     const  deleteTodolist = (id: string) => {
         setTodolists(todolists.filter(t => t.id !== id))
         delete tasks[id]
@@ -99,6 +105,7 @@ function App() {
                         changeTaskStatus={changeTaskStatus}
                         onChangeTaskTitle={onChangeTaskTitle}
                         deleteTodolist={deleteTodolist}
+                        onChangeTodolistTitle={onChangeTodolistTitle}
                     />
                 )
             })}

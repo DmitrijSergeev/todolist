@@ -13,10 +13,11 @@ type Props = {
     changeTaskStatus: (id:string, taskId: string, isDone: boolean) => void
     onChangeTaskTitle: (id: string, taskId: string, title: string) => void
     deleteTodolist: (id:string) => void
+    onChangeTodolistTitle: (todoId: string, title: string)=>void
 }
 
 export const TodoListItem = (
-    {tasks, removeTask, changeFilter, addTask, changeTaskStatus, onChangeTaskTitle, deleteTodolist,
+    {tasks, removeTask, changeFilter, addTask, onChangeTodolistTitle, changeTaskStatus, onChangeTaskTitle, deleteTodolist,
         todolist:{id, title, filter}}: Props) => {
 
     const addTaskHandler = (title: string) => {
@@ -27,10 +28,16 @@ export const TodoListItem = (
         deleteTodolist(id)
     }
 
+    const changeTodolistTitleHandler = (title: string) => {
+        onChangeTodolistTitle(id, title)
+    }
+
     return (
         <div>
             <div className={'container'}>
-                <h3>{title}</h3>
+                <h3>
+                <EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
+                </h3>
                 <Button name={'X'} onClick={deleteHandler}/>
             </div>
             <CreateItemForm addItem={addTaskHandler}/>
