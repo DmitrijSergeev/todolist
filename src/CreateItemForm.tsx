@@ -1,12 +1,14 @@
 import {KeyboardEvent, useRef, useState} from "react";
-import Button from "@mui/material/Button";
+import {TextField} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import AddBoxIcon from '@mui/icons-material/AddBox'
 
 type Props = {
-    addItem: (title: string)=>void
+    addItem: (title: string) => void
 }
 
-export const CreateItemForm = ({addItem}:Props) => {
-    const inputRef = useRef<HTMLInputElement>(null)
+export const CreateItemForm = ({addItem}: Props) => {
+    const inputRef = useRef<HTMLInputElement|null>(null)
 
     const [error, setError] = useState<null | string>(null)
 
@@ -28,12 +30,18 @@ export const CreateItemForm = ({addItem}:Props) => {
     }
     return (
         <div>
-            <input ref={inputRef}
-                   onKeyDown={onKeyDownHandler}
-                   className={error ? 'error' : ''}
+            <TextField
+                inputRef={inputRef}
+                label={'Enter a title'}
+                variant={'outlined'}
+                size={'small'}
+                onKeyDown={onKeyDownHandler}
+                error={!!error}
+                helperText={error}
             />
-            <Button variant={'contained'} size={'small'} onClick={addItemHandler}>+</Button>
-            {error && <div className={'error-message'}>{error}</div>}
+            <IconButton onClick={addItemHandler} color={'primary'}>
+                <AddBoxIcon />
+            </IconButton>
         </div>
     );
 };
