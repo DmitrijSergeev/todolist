@@ -28,5 +28,8 @@
       "/src/*"
     ]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "node_modules/.pnpm/vitest@3.1.3_@types+node@22.15.2_jiti@2.4.2_lightningcss@1.29.2/node_modules/vitest/globals.d.ts"
+  ]
 }

@@ -1,11 +1,12 @@
-import {FilterValues, Task, Todolist} from "./types/Types.ts";
+import {FilterValues, Task, Todolist} from "../types/Types.ts";
 import {ChangeEvent} from "react";
-import {CreateItemForm} from "./CreateItemForm.tsx";
-import {EditableSpan} from "./EditableSpan.tsx";
+import {CreateItemForm} from "../CreateItemForm.tsx";
+import {EditableSpan} from "../EditableSpan.tsx";
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Button from "@mui/material/Button";
 import {Box, Checkbox, List, ListItem} from "@mui/material";
+import {containerSx, getListItemSx} from "../todolistItem/TodolistItem.styles.ts";
 
 type Props = {
     todolist: Todolist
@@ -75,7 +76,7 @@ export const TodoListItem = (
                         }
                         return (
                             <ListItem key={task.taskId}
-                                      sx={{p: 0, justifyContent: 'space-between', opacity: task.isDone ? 0.5 : 1}}
+                                      sx={getListItemSx(task.isDone)}
                             >
                                 <div>
                                     <Checkbox checked={task.isDone}
@@ -109,7 +110,7 @@ export const TodoListItem = (
                     Completed
                 </Button>
             </div>
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>{/*...*/}</Box>
+            <Box sx={containerSx}></Box>
         </div>
     );
 };
