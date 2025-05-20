@@ -11,6 +11,10 @@ import Grid from '@mui/material/Grid'
 import {NavButton} from "./button/NavButton.ts";
 import {containerSx} from "./todolistItem/TodolistItem.styles.ts";
 import {MenuIcon} from "lucide-react";
+import Switch from '@mui/material/Switch'
+import CssBaseline from '@mui/material/CssBaseline'
+
+type ThemeMode = 'dark' | 'light'
 
 function App() {
 
@@ -85,10 +89,30 @@ function App() {
         setTasks({...tasks})
     }
 
-    const theme = createTheme({})
+    const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+        const savedTheme = localStorage.getItem('themeMode');
+        return savedTheme === 'dark' ? 'dark' : 'light'; // fallback to 'light'
+    });
+
+    const theme = createTheme({
+        palette: {
+            mode: themeMode,
+            primary: {
+                main: '#087EA4',
+            },
+        },
+    })
+
+    const changeMode = () => {
+        const newMode = themeMode === 'light' ? 'dark' : 'light';
+        setThemeMode(newMode);
+        localStorage.setItem('themeMode', newMode);
+    }
+
 
     return (
         <ThemeProvider theme={theme}>
+            <CssBaseline/>
             <div className="app">
                 <AppBar position="static" sx={{mb: '30px'}}>
                     <Toolbar>
@@ -99,7 +123,8 @@ function App() {
                             <div>
                                 <NavButton color="inherit">Sign in</NavButton>
                                 <NavButton color="inherit">Sign up</NavButton>
-                                <NavButton color="inherit">Faq</NavButton>
+                                <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+                                <Switch color={'default'} onChange={changeMode} />
                             </div>
                         </Container>
                     </Toolbar>
