@@ -1,15 +1,15 @@
 import './App.css'
-import {TodoListItem} from "./todolistItem/TodoListItem.tsx";
+import {TodoListItem} from "../todolistItem/TodoListItem.tsx";
 import {v1} from "uuid";
 import {useState} from "react";
-import {FilterValues, TaskState, Todolist} from "./types/Types.ts";
-import {CreateItemForm} from "./CreateItemForm.tsx";
+import {FilterValues, TaskState, Todolist} from "../types/Types.ts";
+import {CreateItemForm} from "../CreateItemForm.tsx";
 import {AppBar, createTheme, Paper, ThemeProvider, Toolbar} from '@mui/material';
 import IconButton from "@mui/material/IconButton";
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import {NavButton} from "./button/NavButton.ts";
-import {containerSx} from "./todolistItem/TodolistItem.styles.ts";
+import {NavButton} from "../button/NavButton.ts";
+import {containerSx} from "../todolistItem/TodolistItem.styles.ts";
 import {MenuIcon} from "lucide-react";
 import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'

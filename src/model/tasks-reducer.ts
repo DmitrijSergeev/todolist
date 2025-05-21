@@ -1,4 +1,4 @@
-import {TaskState} from "./types/Types.ts";
+import {TaskState} from "../types/Types.ts";
 
 type Actions = {
     type: string;
