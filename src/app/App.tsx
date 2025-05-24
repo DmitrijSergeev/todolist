@@ -1,6 +1,5 @@
 import './App.css'
 import {TodoListItem} from "../todolistItem/TodoListItem.tsx";
-import {useState} from "react";
 import {FilterValues, TaskState, Todolist} from "../types/Types.ts";
 import {CreateItemForm} from "../CreateItemForm.tsx";
 import {AppBar, createTheme, Paper, ThemeProvider, Toolbar} from '@mui/material';
@@ -12,9 +11,8 @@ import {containerSx} from "../todolistItem/TodolistItem.styles.ts";
 import {MenuIcon} from "lucide-react";
 import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
-import {useSelector} from 'react-redux';
 import {RootState} from "../app/store.ts";
-import {useAppDispatch} from "../hooks/useAppDispatch.ts";
+import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -22,16 +20,16 @@ import {
     deleteTodolistAC
 } from "../model/todolists-reducer.ts";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC} from '../model/tasks-reducer.ts';
-
-type ThemeMode = 'dark' | 'light'
+import {changeThemeModeAC} from "../app/app-reducer.ts";
+import {useAppSelector} from "../common/hooks/useAppSelector.ts";
+import {selectThemeMode} from "../app/app-selectors.ts";
 
 function App() {
 
-    const todolists = useSelector<RootState, Todolist[]>(state => state.todolists)
-    const tasks = useSelector<RootState, TaskState>(state => state.tasks)
+    const todolists = useAppSelector(state => state.todolists)
+    const tasks = useAppSelector<RootState, TaskState>(state => state.tasks)
 
     const dispatch = useAppDispatch()
-    // const [filter, setFilter] = useState<FilterValueType>('all')
 
     const changeFilter = (todolistId: string, filter: FilterValues) => {
         dispatch(changeTodolistFilterAC({id: todolistId, filter}))
@@ -65,10 +63,7 @@ function App() {
         dispatch(changeTaskTitleAC({todolistId, taskId, title}))
     }
 
-    const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
-        const savedTheme = localStorage.getItem('themeMode');
-        return savedTheme === 'dark' ? 'dark' : 'light'; // fallback to 'light'
-    });
+    const themeMode = useAppSelector(selectThemeMode)
 
     const theme = createTheme({
         palette: {
@@ -81,7 +76,8 @@ function App() {
 
     const changeMode = () => {
         const newMode = themeMode === 'light' ? 'dark' : 'light';
-        setThemeMode(newMode);
+        // setThemeMode(newMode);
+        dispatch(changeThemeModeAC({themeMode: themeMode === 'light' ? 'dark' : 'light'}))
         localStorage.setItem('themeMode', newMode);
     }
 
@@ -100,7 +96,9 @@ function App() {
                                 <NavButton color="inherit">Sign in</NavButton>
                                 <NavButton color="inherit">Sign up</NavButton>
                                 <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
-                                <Switch color={'default'} onChange={changeMode} />
+                                <Switch color={'default'} onChange={changeMode}
+                                        checked={themeMode === 'dark'}
+                                />
                             </div>
                         </Container>
                     </Toolbar>
