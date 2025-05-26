@@ -1,15 +1,10 @@
 import './App.css'
-import {TodoListItem} from "../todolistItem/TodoListItem.tsx";
+import {TodoListItem} from "../todolistItem/TodoListItem";
 import {FilterValues, TaskState, Todolist} from "../types/Types.ts";
 import {CreateItemForm} from "../CreateItemForm.tsx";
-import {AppBar, createTheme, Paper, ThemeProvider, Toolbar} from '@mui/material';
-import IconButton from "@mui/material/IconButton";
+import {Paper, ThemeProvider} from '@mui/material';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import {NavButton} from "../button/NavButton.ts";
-import {containerSx} from "../todolistItem/TodolistItem.styles.ts";
-import {MenuIcon} from "lucide-react";
-import Switch from '@mui/material/Switch'
 import CssBaseline from '@mui/material/CssBaseline'
 import {RootState} from "../app/store.ts";
 import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
@@ -20,12 +15,15 @@ import {
     deleteTodolistAC
 } from "../model/todolists-reducer.ts";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC} from '../model/tasks-reducer.ts';
-import {changeThemeModeAC} from "../app/app-reducer.ts";
 import {useAppSelector} from "../common/hooks/useAppSelector.ts";
+import {Header} from "../common/components/Header.tsx";
+import {getTheme} from "../common/theme/theme.ts";
 import {selectThemeMode} from "../app/app-selectors.ts";
 
 function App() {
+    const themeMode = useAppSelector(selectThemeMode)
 
+    const theme = getTheme(themeMode)
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector<RootState, TaskState>(state => state.tasks)
 
@@ -63,46 +61,40 @@ function App() {
         dispatch(changeTaskTitleAC({todolistId, taskId, title}))
     }
 
-    const themeMode = useAppSelector(selectThemeMode)
-
-    const theme = createTheme({
-        palette: {
-            mode: themeMode,
-            primary: {
-                main: '#087EA4',
-            },
-        },
-    })
-
-    const changeMode = () => {
-        const newMode = themeMode === 'light' ? 'dark' : 'light';
-        // setThemeMode(newMode);
-        dispatch(changeThemeModeAC({themeMode: themeMode === 'light' ? 'dark' : 'light'}))
-        localStorage.setItem('themeMode', newMode);
-    }
+    // const themeMode = useAppSelector(selectThemeMode)
+    //
+    // const theme = getTheme(themeMode)
+    //
+    // const changeMode = () => {
+    //     const newMode = themeMode === 'light' ? 'dark' : 'light';
+    //     // setThemeMode(newMode);
+    //     dispatch(changeThemeModeAC({themeMode: themeMode === 'light' ? 'dark' : 'light'}))
+    //     localStorage.setItem('themeMode', newMode);
+    // }
 
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <div className="app">
-                <AppBar position="static" sx={{mb: '30px'}}>
-                    <Toolbar>
-                        <Container maxWidth={'lg'} sx={containerSx}>
-                            <IconButton color="inherit">
-                                <MenuIcon/>
-                            </IconButton>
-                            <div>
-                                <NavButton color="inherit">Sign in</NavButton>
-                                <NavButton color="inherit">Sign up</NavButton>
-                                <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
-                                <Switch color={'default'} onChange={changeMode}
-                                        checked={themeMode === 'dark'}
-                                />
-                            </div>
-                        </Container>
-                    </Toolbar>
-                </AppBar>
+                <Header/>
+                {/*<AppBar position="static" sx={{mb: '30px'}}>*/}
+                {/*    <Toolbar>*/}
+                {/*        <Container maxWidth={'lg'} sx={containerSx}>*/}
+                {/*            <IconButton color="inherit">*/}
+                {/*                <MenuIcon/>*/}
+                {/*            </IconButton>*/}
+                {/*            <div>*/}
+                {/*                <NavButton color="inherit">Sign in</NavButton>*/}
+                {/*                <NavButton color="inherit">Sign up</NavButton>*/}
+                {/*                <NavButton background={theme.palette.primary.dark}>Faq</NavButton>*/}
+                {/*                <Switch color={'default'} onChange={changeMode}*/}
+                {/*                        checked={themeMode === 'dark'}*/}
+                {/*                />*/}
+                {/*            </div>*/}
+                {/*        </Container>*/}
+                {/*    </Toolbar>*/}
+                {/*</AppBar>*/}
                 <Container maxWidth={'lg'}>
                     <Grid container sx={{mb: '30px'}}>
                         <CreateItemForm addItem={createTodolist}/>
