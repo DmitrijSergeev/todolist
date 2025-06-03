@@ -2,19 +2,25 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import {CreateItemForm} from "../CreateItemForm.tsx";
 import {Paper} from "@mui/material";
-import {TaskState, Todolist } from "../types/Types.ts";
+import {Todolist } from "../types/Types.ts";
 import {useAppDispatch} from "../common/hooks/useAppDispatch.ts";
-import { createTodolistAC } from "../model/todolists-reducer.ts";
+import {changeTodolistFilterAC, createTodolistAC} from "../model/todolists-reducer.ts";
 import { TodoListItem } from "../todolistItem/TodoListItem.tsx";
 import { useAppSelector } from "../common/hooks/useAppSelector.ts";
-import {ThemeMode} from "../app/app-reducer.ts";
+import { selectTasks } from "../model/tasks-selectors.ts";
+import {selectTodolists} from "../model/todolists-selectors.ts";
 
 export const Main = () => {
     const tasks = useAppSelector(selectTasks)
+    const todolists = useAppSelector(selectTodolists)
     const dispatch = useAppDispatch()
 
     const createTodolist = (title: string) => {
         dispatch(createTodolistAC(title))
+    }
+
+    const changeFilter = (todolistId: string, filter: FilterValues) => {
+        dispatch(changeTodolistFilterAC({id: todolistId, filter}))
     }
 
     return (
@@ -39,7 +45,7 @@ export const Main = () => {
                                 <TodoListItem
                                     todolist={todolist}
                                     tasks={filteredTasks}
-                                    removeTask={deleteTask}
+                                    removeTask={removeTask}
                                     changeFilter={changeFilter}
                                     addTask={createTask}
                                     changeTaskStatus={changeTaskStatus}
@@ -55,7 +61,4 @@ export const Main = () => {
         </Container>
     );
 };
-function selectTasks(state: { tasks: TaskState; todolists: Todolist[]; app: { themeMode: ThemeMode; }; }): unknown {
-    throw new Error("Function not implemented.");
-}
 
